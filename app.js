@@ -9,9 +9,10 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 
+const port = process.env.PORT;
 
 //6sz0WyDjp3OwdD59
-// middlewares   
+// middlewares
 app.use(cors());
 app.use(express.json());
 app.use("/user", userRouter);
@@ -20,12 +21,10 @@ app.use("/movie", movieRouter);
 app.use("/booking", bookingsRouter);
 
 mongoose
-  .connect(
-    `mongodb+srv://admin:${process.env.MONGODB_PASSWORD}@cluster0.x4w27be.mongodb.net/?retryWrites=true&w=majority`
-  )
+  .connect(`${process.env.MONGODB_URL}`)
   .then(() =>
-    app.listen(5000, () =>
-      console.log("Connected To Database And Server is running")
+    app.listen(port, () =>
+      console.log(`Connected To Database And Server is running at ${port}`)
     )
   )
   .catch((e) => console.log(e));
