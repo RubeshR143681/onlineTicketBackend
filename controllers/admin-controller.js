@@ -35,12 +35,12 @@ export const addAdmin = async (req, res, next) => {
 
 export const adminLogin = async (req, res, next) => {
   const { email, password } = req.body;
-  // if (!email && email.trim() === "" && !password && password.trim() === "") {
-  //   return res.status(422).json({ message: "Invalid Inputs" });
-  // }
-  if (!email || email.trim() === "" || !password || password.trim() === "") {
+  if (!email && email.trim() === "" && !password && password.trim() === "") {
     return res.status(422).json({ message: "Invalid Inputs" });
-}
+  }
+  //   if (!email || email.trim() === "" || !password || password.trim() === "") {
+  //     return res.status(422).json({ message: "Invalid Inputs" });
+  // }
   let existingAdmin;
   try {
     existingAdmin = await Admin.findOne({ email });
