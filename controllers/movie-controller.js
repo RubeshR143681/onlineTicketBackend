@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import Admin from "../models/Admin.js";
 import Movie from "../models/Movie.js";
+
 export const addMovie = async (req, res, next) => {
   const extractedToken = req.headers.authorization.split(" ")[1];
   if (!extractedToken && extractedToken.trim() === "") {
@@ -21,15 +22,24 @@ export const addMovie = async (req, res, next) => {
   });
 
   //create new movie
-  const { title, description, releaseDate, posterUrl, featured, actors } =
-    req.body;
+  const {
+    title,
+    description,
+    releaseDate,
+    posterUrl,
+    featured,
+    actors,
+    ticket_price,
+  } = req.body;
   if (
     !title &&
     title.trim() === "" &&
     !description &&
     description.trim() == "" &&
     !posterUrl &&
-    posterUrl.trim() === ""
+    posterUrl.trim() === "" &&
+    !ticket_price &&
+    ticket_price.trim() === ""
   ) {
     return res.status(422).json({ message: "Invalid Inputs" });
   }
@@ -44,6 +54,7 @@ export const addMovie = async (req, res, next) => {
       admin: adminId,
       posterUrl,
       title,
+      ticket_price,
     });
     const session = await mongoose.startSession();
     const adminUser = await Admin.findById(adminId);
